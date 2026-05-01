@@ -176,9 +176,21 @@ main {
 
 .toolbar {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
   margin: 16px 0;
+}
+
+.search-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 16px;
+}
+
+.search-row label {
+  margin-bottom: 0;
 }
 
 label {
@@ -188,6 +200,12 @@ label {
   color: var(--ink);
   font-size: 14px;
   font-weight: 700;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
 }
 
 input,
@@ -269,6 +287,51 @@ textarea:focus {
   gap: 12px;
 }
 
+.insight-list {
+  display: grid;
+  gap: 12px;
+}
+
+.insight-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 2fr);
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfdff;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.insight-card:hover,
+.insight-card:focus {
+  border-color: rgba(37, 99, 235, 0.45);
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.1);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.insight-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.insight-metrics span {
+  padding: 8px;
+  border-radius: 8px;
+  background: #eef4ff;
+  text-align: center;
+}
+
 .expense-card,
 .vehicle-card {
   display: flex;
@@ -281,7 +344,37 @@ textarea:focus {
 }
 
 .expense-card {
+  position: relative;
   justify-content: space-between;
+  padding-right: 96px;
+}
+
+.card-actions {
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.text-button {
+  min-height: 32px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--primary);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.text-button.danger {
+  color: var(--danger);
 }
 
 .vehicle-list {
@@ -296,11 +389,11 @@ textarea:focus {
 
 .vehicle-card {
   position: relative;
+  display: grid;
   flex: 0 0 min(78vw, 280px);
-  min-height: 132px;
-  align-items: stretch;
-  flex-direction: column;
-  justify-content: space-between;
+  min-height: 164px;
+  align-content: space-between;
+  gap: 14px;
   overflow: hidden;
   scroll-snap-align: start;
 }
@@ -316,10 +409,18 @@ textarea:focus {
   content: "";
 }
 
-.vehicle-icon {
+.vehicle-card-top {
   position: relative;
   z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.vehicle-icon {
   display: grid;
+  flex: 0 0 auto;
   width: 52px;
   height: 52px;
   place-items: center;
@@ -329,10 +430,54 @@ textarea:focus {
   font-size: 30px;
 }
 
+.vehicle-card-actions,
+.expense-card-actions {
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+}
+
+.expense-card-actions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.icon-button {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid rgba(23, 32, 51, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 8px 18px rgba(23, 32, 51, 0.12);
+}
+
+.icon-button:hover {
+  background: #eef4ff;
+  color: var(--primary-dark);
+}
+
+.icon-button.danger:hover {
+  background: #fff1f0;
+  color: var(--danger);
+}
+
 .vehicle-card .badge,
-.vehicle-card > div:not(.vehicle-icon) {
+.vehicle-card > div:not(.vehicle-card-top) {
   position: relative;
   z-index: 1;
+}
+
+.card-footer {
+  display: grid;
+  gap: 10px;
 }
 
 .badge {
@@ -358,6 +503,13 @@ textarea:focus {
   margin: 8px 0 0;
   color: var(--muted);
   font-size: 14px;
+}
+
+.metric-line {
+  margin: 6px 0 0;
+  color: var(--primary-dark);
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .empty {
@@ -397,6 +549,10 @@ textarea:focus {
   gap: 10px;
 }
 
+.inline-edit-panel {
+  margin-bottom: 16px;
+}
+
 .is-hidden {
   display: none !important;
 }
@@ -408,7 +564,11 @@ canvas {
 @media (max-width: 720px) {
   .summary-grid,
   .toolbar,
-  .quick-actions {
+  .quick-actions,
+  .search-row,
+  .form-grid,
+  .insight-card,
+  .insight-metrics {
     grid-template-columns: 1fr;
   }
 
@@ -423,6 +583,11 @@ canvas {
 
   .topbar h1 {
     font-size: 18px;
+  }
+
+  .expense-card {
+    padding-right: 16px;
+    padding-top: 58px;
   }
 
   .hide-sm {

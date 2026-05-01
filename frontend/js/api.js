@@ -44,6 +44,17 @@ export function getVehicles(userId) {
   return request(`/vehicle/${userId}`);
 }
 
+export function updateVehicle(vehicleId, vehicle) {
+  return request(`/vehicle/${vehicleId}`, {
+    method: "PUT",
+    body: JSON.stringify(vehicle)
+  });
+}
+
+export function deleteVehicle(vehicleId) {
+  return request(`/vehicle/${vehicleId}`, { method: "DELETE" });
+}
+
 export function addExpense(expense) {
   return request("/expense/add", {
     method: "POST",
@@ -57,4 +68,15 @@ export function getExpenses(userId, filters = {}) {
   if (filters.type) params.set("type", filters.type);
   const query = params.toString() ? `?${params.toString()}` : "";
   return request(`/expense/${userId}${query}`);
+}
+
+export function updateExpense(expenseId, expense) {
+  return request(`/expense/${expenseId}`, {
+    method: "PUT",
+    body: JSON.stringify(expense)
+  });
+}
+
+export function deleteExpense(expenseId) {
+  return request(`/expense/${expenseId}`, { method: "DELETE" });
 }

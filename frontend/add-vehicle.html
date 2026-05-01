@@ -24,6 +24,7 @@
 
         <section id="vehicleFormPanel" class="panel">
           <form id="vehicleForm">
+            <input name="vehicleId" type="hidden" />
             <label>
               Vehicle name
               <input name="vehicleName" placeholder="Honda City" required />
@@ -42,8 +43,13 @@
                 <option value="other">Other</option>
               </select>
             </label>
+            <label>
+              Initial odometer reading
+              <input name="initialOdometer" type="number" min="0" step="0.1" placeholder="40000" />
+            </label>
             <div class="form-actions">
-              <button class="button" type="submit">Save vehicle</button>
+              <button id="vehicleSubmitButton" class="button" type="submit">Save vehicle</button>
+              <button id="cancelVehicleEditButton" class="button ghost-button is-hidden" type="button">Cancel edit</button>
               <a class="button ghost-button" href="dashboard.html">Back to dashboard</a>
             </div>
             <p id="formMessage" class="message"></p>

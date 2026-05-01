@@ -24,6 +24,21 @@ async function loadVehicles() {
   select.disabled = !vehicles.length;
 }
 
+function optionalNumber(value) {
+  return value === "" ? null : Number(value);
+}
+
+function syncFuelQuantityVisibility() {
+  const form = document.getElementById("expenseForm");
+  const label = document.getElementById("fuelQuantityLabel");
+  const isFuel = form.type.value === "fuel";
+  label.classList.toggle("is-hidden", !isFuel);
+  form.fuelQuantity.disabled = !isFuel;
+  if (!isFuel) {
+    form.fuelQuantity.value = "";
+  }
+}
+
 requireAuth(async (user) => {
   currentUser = user;
   registerServiceWorker();
@@ -31,6 +46,8 @@ requireAuth(async (user) => {
   document.getElementById("userEmail").textContent = user.email || "Signed in";
   document.getElementById("logoutButton").addEventListener("click", logout);
   document.getElementById("date").value = new Date().toISOString().slice(0, 10);
+  document.querySelector("#expenseForm select[name='type']").addEventListener("change", syncFuelQuantityVisibility);
+  syncFuelQuantityVisibility();
   await verifyToken();
   await loadVehicles();
 });
@@ -49,7 +66,9 @@ document.getElementById("expenseForm").addEventListener("submit", async (event) 
       amount: Number(form.amount.value),
       type: form.type.value,
       note: form.note.value.trim(),
-      date: form.date.value
+      date: form.date.value,
+      odometer: optionalNumber(form.odometer.value),
+      fuelQuantity: optionalNumber(form.fuelQuantity.value)
     });
     showMessage("formMessage", "Expense added successfully.", "success");
     form.reset();

@@ -119,8 +119,12 @@ GET  /health
 POST /api/auth/verifyToken
 POST /api/vehicle/add
 GET  /api/vehicle/:userId
+PUT  /api/vehicle/:vehicleId
+DELETE /api/vehicle/:vehicleId
 POST /api/expense/add
 GET  /api/expense/:userId
+PUT  /api/expense/:expenseId
+DELETE /api/expense/:expenseId
 ```
 
 ## Firestore Collections
@@ -145,6 +149,8 @@ GET  /api/expense/:userId
   "vehicleName": "Honda City",
   "number": "DL 01 AB 1234",
   "type": "car",
+  "initialOdometer": 40000,
+  "currentOdometer": 45210,
   "createdAt": "server timestamp",
   "updatedAt": "server timestamp"
 }
@@ -160,6 +166,8 @@ GET  /api/expense/:userId
   "type": "service",
   "note": "Oil change and filters",
   "date": "2026-05-01",
+  "odometer": 45210,
+  "fuelQuantity": null,
   "month": "2026-05",
   "createdAt": "server timestamp",
   "updatedAt": "server timestamp"

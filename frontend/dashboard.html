@@ -38,6 +38,18 @@
             <p class="muted">Vehicles</p>
             <strong id="vehicleCount">0</strong>
           </article>
+          <article class="panel stat">
+            <p class="muted">Tracked distance</p>
+            <strong id="trackedDistance">0 km</strong>
+          </article>
+          <article class="panel stat">
+            <p class="muted">Cost per km</p>
+            <strong id="costPerKm">—</strong>
+          </article>
+          <article class="panel stat">
+            <p class="muted">Fuel efficiency</p>
+            <strong id="fuelEfficiency">—</strong>
+          </article>
         </section>
 
         <section class="quick-actions" aria-label="Quick actions">
@@ -48,6 +60,14 @@
         <section class="panel" aria-label="Monthly breakdown">
           <h2>Monthly breakdown</h2>
           <canvas id="monthlyChart"></canvas>
+        </section>
+
+        <section class="panel" aria-label="Vehicle insights">
+          <div class="section-heading">
+            <h2>Vehicle insights</h2>
+            <span class="muted">Spend, distance, and efficiency</span>
+          </div>
+          <div id="vehicleInsightList" class="insight-list"></div>
         </section>
 
         <section>
@@ -66,7 +86,74 @@
                 <option value="insurance">Insurance</option>
               </select>
             </label>
+            <label>
+              From
+              <input id="fromDateFilter" type="date" />
+            </label>
+            <label>
+              To
+              <input id="toDateFilter" type="date" />
+            </label>
+            <label>
+              Sort
+              <select id="sortFilter">
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+                <option value="highest">Highest amount</option>
+                <option value="lowest">Lowest amount</option>
+              </select>
+            </label>
           </div>
+          <div class="search-row">
+            <label>
+              Search notes
+              <input id="searchFilter" type="search" placeholder="Search service, tyre, renewal..." />
+            </label>
+            <button id="clearFiltersButton" class="button ghost-button" type="button">Clear filters</button>
+          </div>
+          <section id="editExpensePanel" class="panel inline-edit-panel is-hidden" aria-label="Edit expense">
+            <div class="section-heading">
+              <h2>Edit expense</h2>
+              <button id="cancelExpenseEditButton" class="button ghost-button compact-button" type="button">Cancel</button>
+            </div>
+            <form id="editExpenseForm">
+              <input name="expenseId" type="hidden" />
+              <label>
+                Vehicle
+                <select name="vehicleId" required></select>
+              </label>
+              <label>
+                Amount
+                <input name="amount" type="number" min="1" step="0.01" required />
+              </label>
+              <label>
+                Category
+                <select name="type" required>
+                  <option value="fuel">Fuel</option>
+                  <option value="service">Service</option>
+                  <option value="repair">Repair</option>
+                  <option value="insurance">Insurance</option>
+                </select>
+              </label>
+              <label>
+                Date
+                <input name="date" type="date" required />
+              </label>
+              <label>
+                Odometer reading
+                <input name="odometer" type="number" min="0" step="0.1" />
+              </label>
+              <label id="editFuelQuantityLabel">
+                Fuel quantity
+                <input name="fuelQuantity" type="number" min="0" step="0.01" />
+              </label>
+              <label>
+                Note
+                <textarea name="note"></textarea>
+              </label>
+              <button class="button" type="submit">Save changes</button>
+            </form>
+          </section>
           <div id="expenseList" class="expense-list"></div>
         </section>
       </main>

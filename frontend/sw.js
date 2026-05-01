@@ -1,4 +1,4 @@
-const CACHE_NAME = "vehicle-expense-tracker-v2";
+const CACHE_NAME = "vehicle-expense-tracker-v4";
 const ASSETS = [
   "./",
   "./login.html",

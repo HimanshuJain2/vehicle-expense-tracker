@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register | Vehicle Expense Tracker</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body class="auth-page">
+    <section class="auth-card">
+      <div class="brand">
+        <div class="logo">VE</div>
+        <div>
+          <h1>Create account</h1>
+          <p class="muted">Start tracking fuel, service, repairs, and insurance.</p>
+        </div>
+      </div>
+
+      <form data-auth-form data-mode="register">
+        <label>
+          Email
+          <input name="email" type="email" autocomplete="email" required />
+        </label>
+        <label>
+          Password
+          <input name="password" type="password" autocomplete="new-password" minlength="6" required />
+        </label>
+        <button class="button" type="submit">Sign up</button>
+        <p id="formMessage" class="message"></p>
+      </form>
+
+      <p class="muted">Already registered? <a href="login.html">Log in</a></p>
+    </section>
+
+    <script type="module" src="./js/auth.js"></script>
+  </body>
+</html>

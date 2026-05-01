@@ -1,0 +1,11 @@
+{
+  "name": "vehicle-expense-tracker-frontend",
+  "version": "1.0.0",
+  "description": "Vanilla HTML/CSS/JS frontend for the Vehicle Expense Tracker app.",
+  "scripts": {
+    "start": "npx http-server . -p 3000 -c-1"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

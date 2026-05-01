@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | Vehicle Expense Tracker</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body class="auth-page">
+    <section class="auth-card">
+      <div class="brand">
+        <div class="logo">VE</div>
+        <div>
+          <h1>Welcome back</h1>
+          <p class="muted">Track every vehicle expense in one place.</p>
+        </div>
+      </div>
+
+      <form data-auth-form data-mode="login">
+        <label>
+          Email
+          <input name="email" type="email" autocomplete="email" required />
+        </label>
+        <label>
+          Password
+          <input name="password" type="password" autocomplete="current-password" minlength="6" required />
+        </label>
+        <button class="button" type="submit">Log in</button>
+        <p id="formMessage" class="message"></p>
+      </form>
+
+      <p class="muted">New here? <a href="register.html">Create an account</a></p>
+    </section>
+
+    <script type="module" src="./js/auth.js"></script>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Expense | Vehicle Expense Tracker</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo">VE</div>
+          <div>
+            <h1>Add expense</h1>
+            <p id="userEmail" class="muted"></p>
+          </div>
+        </div>
+        <button id="logoutButton" class="button ghost-button" type="button">Logout</button>
+      </header>
+
+      <main>
+        <section class="panel">
+          <form id="expenseForm">
+            <label>
+              Vehicle
+              <select id="vehicleId" name="vehicleId" required></select>
+            </label>
+            <label>
+              Amount
+              <input name="amount" type="number" min="1" step="0.01" placeholder="2500" required />
+            </label>
+            <label>
+              Category
+              <select name="type" required>
+                <option value="fuel">Fuel</option>
+                <option value="service">Service</option>
+                <option value="repair">Repair</option>
+                <option value="insurance">Insurance</option>
+              </select>
+            </label>
+            <label>
+              Date
+              <input id="date" name="date" type="date" required />
+            </label>
+            <label>
+              Note
+              <textarea name="note" placeholder="Oil change, tire replacement, fuel refill..."></textarea>
+            </label>
+            <div class="form-actions">
+              <button class="button" type="submit">Save expense</button>
+              <a class="button ghost-button" href="dashboard.html">Back to dashboard</a>
+            </div>
+            <p id="formMessage" class="message"></p>
+          </form>
+        </section>
+      </main>
+
+      <nav class="bottom-nav" aria-label="Primary navigation">
+        <a data-nav href="dashboard.html">Dashboard</a>
+        <a data-nav href="add-expense.html">Expense</a>
+        <a data-nav href="add-vehicle.html">Vehicle</a>
+      </nav>
+    </div>
+
+    <script type="module" src="./js/addExpense.js"></script>
+  </body>
+</html>

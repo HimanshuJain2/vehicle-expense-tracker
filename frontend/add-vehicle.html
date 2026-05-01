@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Vehicle | Vehicle Expense Tracker</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo">VE</div>
+          <div>
+            <h1>Add vehicle</h1>
+            <p id="userEmail" class="muted"></p>
+          </div>
+        </div>
+        <button id="logoutButton" class="button ghost-button" type="button">Logout</button>
+      </header>
+
+      <main>
+        <p id="pageMessage" class="message"></p>
+
+        <section id="vehicleFormPanel" class="panel">
+          <form id="vehicleForm">
+            <label>
+              Vehicle name
+              <input name="vehicleName" placeholder="Honda City" required />
+            </label>
+            <label>
+              Registration number
+              <input name="number" placeholder="DL 01 AB 1234" required />
+            </label>
+            <label>
+              Vehicle type
+              <select name="type" required>
+                <option value="car">Car</option>
+                <option value="bike">Bike</option>
+                <option value="scooter">Scooter</option>
+                <option value="truck">Truck</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+            <div class="form-actions">
+              <button class="button" type="submit">Save vehicle</button>
+              <a class="button ghost-button" href="dashboard.html">Back to dashboard</a>
+            </div>
+            <p id="formMessage" class="message"></p>
+          </form>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <h2>Your vehicles</h2>
+            <button id="showVehicleFormButton" class="button ghost-button compact-button is-hidden" type="button">
+              Add vehicle
+            </button>
+          </div>
+          <div id="vehicleList" class="vehicle-list"></div>
+        </section>
+      </main>
+
+      <nav class="bottom-nav" aria-label="Primary navigation">
+        <a data-nav href="dashboard.html">Dashboard</a>
+        <a data-nav href="add-expense.html">Expense</a>
+        <a data-nav href="add-vehicle.html">Vehicle</a>
+      </nav>
+    </div>
+
+    <script type="module" src="./js/addVehicle.js"></script>
+  </body>
+</html>

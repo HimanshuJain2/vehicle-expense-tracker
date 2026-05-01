@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | Vehicle Expense Tracker</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo">VE</div>
+          <div>
+            <h1>Dashboard</h1>
+            <p id="userEmail" class="muted"></p>
+          </div>
+        </div>
+        <div class="user-box">
+          <a class="button ghost-button hide-sm" href="add-vehicle.html">Add vehicle</a>
+          <a class="button ghost-button hide-sm" href="add-expense.html">Add expense</a>
+          <button id="logoutButton" class="button ghost-button" type="button">Logout</button>
+        </div>
+      </header>
+
+      <main>
+        <p id="dashboardMessage" class="message"></p>
+        <section class="grid summary-grid">
+          <article class="panel stat">
+            <p class="muted">Total expenses</p>
+            <strong id="totalExpenses">₹0</strong>
+          </article>
+          <article class="panel stat">
+            <p class="muted">This month</p>
+            <strong id="monthExpenses">₹0</strong>
+          </article>
+          <article class="panel stat">
+            <p class="muted">Vehicles</p>
+            <strong id="vehicleCount">0</strong>
+          </article>
+        </section>
+
+        <section class="quick-actions" aria-label="Quick actions">
+          <a class="button" href="add-vehicle.html">Add vehicle</a>
+          <a class="button ghost-button" href="add-expense.html">Add expense</a>
+        </section>
+
+        <section class="panel" aria-label="Monthly breakdown">
+          <h2>Monthly breakdown</h2>
+          <canvas id="monthlyChart"></canvas>
+        </section>
+
+        <section>
+          <div class="toolbar">
+            <label>
+              Vehicle
+              <select id="vehicleFilter"></select>
+            </label>
+            <label>
+              Category
+              <select id="categoryFilter">
+                <option value="">All categories</option>
+                <option value="fuel">Fuel</option>
+                <option value="service">Service</option>
+                <option value="repair">Repair</option>
+                <option value="insurance">Insurance</option>
+              </select>
+            </label>
+          </div>
+          <div id="expenseList" class="expense-list"></div>
+        </section>
+      </main>
+
+      <nav class="bottom-nav" aria-label="Primary navigation">
+        <a data-nav href="dashboard.html">Dashboard</a>
+        <a data-nav href="add-expense.html">Expense</a>
+        <a data-nav href="add-vehicle.html">Vehicle</a>
+      </nav>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+    <script type="module" src="./js/dashboard.js"></script>
+  </body>
+</html>

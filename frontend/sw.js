@@ -1,11 +1,15 @@
-const CACHE_NAME = "vehicle-expense-tracker-v4";
+const CACHE_NAME = "motofy-v6";
 const ASSETS = [
   "./",
+  "./manifest.webmanifest",
   "./login.html",
   "./register.html",
   "./dashboard.html",
   "./add-expense.html",
   "./add-vehicle.html",
+  "./assets/motofy-mark.svg",
+  "./assets/motofy-logo.svg",
+  "./assets/motofy-banner.svg",
   "./css/styles.css",
   "./js/config.js",
   "./js/firebaseClient.js",

@@ -39,7 +39,7 @@ class MainActivity : Activity() {
             settings.cacheMode = WebSettings.LOAD_DEFAULT
             settings.loadsImagesAutomatically = true
             settings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
-            settings.userAgentString = "${settings.userAgentString} VehicleExpenseTrackerAndroid"
+            settings.userAgentString = "${settings.userAgentString} MotofyAndroid"
             overScrollMode = View.OVER_SCROLL_NEVER
         }
 

@@ -3,16 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add Expense | Vehicle Expense Tracker</title>
+    <title>Add Expense | Motofy</title>
+    <link rel="icon" href="./assets/motofy-mark.svg" type="image/svg+xml" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <meta name="theme-color" content="#0f766e" />
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
     <div class="app-shell">
       <header class="topbar">
         <div class="brand">
-          <div class="logo">VE</div>
+          <img class="logo" src="./assets/motofy-mark.svg" alt="" />
           <div>
-            <h1>Add expense</h1>
+            <h1>Motofy</h1>
             <p id="userEmail" class="muted"></p>
           </div>
         </div>
@@ -20,6 +23,11 @@
       </header>
 
       <main>
+        <section class="page-intro">
+          <p class="eyebrow">Expense log</p>
+          <h2>Add a vehicle cost</h2>
+          <p class="muted">Capture fuel, service, repairs, and insurance while the details are fresh.</p>
+        </section>
         <section class="panel">
           <form id="expenseForm">
             <label>

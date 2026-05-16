@@ -1,6 +1,6 @@
-# Vehicle Expense Tracker
+# Motofy
 
-Production-ready starter for a Vehicle Expense Tracker Android app that uses:
+Production-ready starter for Motofy, an Android-first vehicle expense app that uses:
 
 - Android WebView shell
 - Vanilla HTML/CSS/JavaScript frontend

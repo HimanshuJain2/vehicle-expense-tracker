@@ -4,6 +4,7 @@ import { clearMessage, registerServiceWorker, setActiveNav, showMessage } from "
 
 let currentUser;
 let vehicles = [];
+let selectedVehicleId = null;
 
 const vehicleIcons = {
   car: "🚗",
@@ -63,7 +64,7 @@ function renderVehicles(vehicles) {
       (vehicle) => {
         const type = escapeHtml(vehicle.type || "other");
         return `
-        <article class="vehicle-card" data-vehicle-id="${vehicle.id}">
+        <article class="vehicle-card clickable-card" data-vehicle-id="${vehicle.id}" tabindex="0" role="button" aria-label="View ${escapeHtml(vehicle.vehicleName)} detail">
           <div class="vehicle-card-top">
             <div class="vehicle-icon" aria-hidden="true">${vehicleIcons[vehicle.type] || vehicleIcons.other}</div>
             <div class="vehicle-card-actions" aria-label="Vehicle actions">
@@ -94,6 +95,15 @@ function renderVehicles(vehicles) {
     .join("");
 }
 
+function detailRow(label, value) {
+  return `
+    <div class="detail-item">
+      <span>${escapeHtml(label)}</span>
+      <strong>${value || "—"}</strong>
+    </div>
+  `;
+}
+
 async function loadVehicles() {
   try {
     const response = await getVehicles(currentUser.uid);
@@ -108,6 +118,7 @@ function editVehicle(vehicleId) {
   const vehicle = vehicles.find((item) => item.id === vehicleId);
   if (!vehicle) return;
 
+  closeVehicleDetail();
   const form = document.getElementById("vehicleForm");
   form.vehicleId.value = vehicle.id;
   form.vehicleName.value = vehicle.vehicleName;
@@ -122,29 +133,92 @@ function editVehicle(vehicleId) {
   document.getElementById("vehicleFormPanel").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+function closeVehicleDetail() {
+  selectedVehicleId = null;
+  document.getElementById("vehicleDetailPanel").classList.add("is-hidden");
+}
+
+function openVehicleDetail(vehicleId) {
+  const vehicle = vehicles.find((item) => item.id === vehicleId);
+  if (!vehicle) return;
+
+  selectedVehicleId = vehicleId;
+  document.getElementById("vehicleDetailTitle").textContent = vehicle.vehicleName;
+  document.getElementById("vehicleDetailBody").innerHTML = [
+    detailRow("Registration number", escapeHtml(vehicle.number)),
+    detailRow("Type", escapeHtml(vehicle.type)),
+    detailRow(
+      "Initial odometer",
+      vehicle.initialOdometer !== null && vehicle.initialOdometer !== undefined
+        ? `${Number(vehicle.initialOdometer).toLocaleString("en-IN")} km`
+        : "—"
+    ),
+    detailRow(
+      "Current odometer",
+      vehicle.currentOdometer !== null && vehicle.currentOdometer !== undefined
+        ? `${Number(vehicle.currentOdometer).toLocaleString("en-IN")} km`
+        : "—"
+    )
+  ].join("");
+
+  document.getElementById("vehicleDetailPanel").classList.remove("is-hidden");
+  document.getElementById("vehicleDetailPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+async function deleteSelectedVehicle(vehicleId) {
+  const confirmed = window.confirm("Delete this vehicle? Vehicles with saved expenses cannot be deleted yet.");
+  if (!confirmed) return;
+
+  try {
+    await deleteVehicle(vehicleId);
+    resetVehicleForm();
+    closeVehicleDetail();
+    await loadVehicles();
+    showMessage("pageMessage", "Vehicle deleted.", "success");
+  } catch (error) {
+    showMessage("pageMessage", error.message);
+  }
+}
+
 async function handleVehicleListClick(event) {
   const button = event.target.closest("button[data-action]");
+  if (button) {
+    const vehicleId = button.dataset.id;
+    if (button.dataset.action === "edit-vehicle") {
+      editVehicle(vehicleId);
+      return;
+    }
+
+    if (button.dataset.action === "delete-vehicle") {
+      await deleteSelectedVehicle(vehicleId);
+      return;
+    }
+  }
+
+  const card = event.target.closest(".vehicle-card[data-vehicle-id]");
+  if (card) openVehicleDetail(card.dataset.vehicleId);
+}
+
+function handleVehicleListKeydown(event) {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  const card = event.target.closest(".vehicle-card[data-vehicle-id]");
+  if (!card) return;
+  event.preventDefault();
+  openVehicleDetail(card.dataset.vehicleId);
+}
+
+async function handleVehicleDetailClick(event) {
+  const button = event.target.closest("button[data-detail-action]");
   if (!button) return;
 
-  const vehicleId = button.dataset.id;
-  if (button.dataset.action === "edit-vehicle") {
-    editVehicle(vehicleId);
+  if (button.dataset.detailAction === "close-vehicle") {
+    closeVehicleDetail();
     return;
   }
 
-  if (button.dataset.action === "delete-vehicle") {
-    const confirmed = window.confirm("Delete this vehicle? Vehicles with saved expenses cannot be deleted yet.");
-    if (!confirmed) return;
-
-    try {
-      await deleteVehicle(vehicleId);
-      resetVehicleForm();
-      await loadVehicles();
-      showMessage("pageMessage", "Vehicle deleted.", "success");
-    } catch (error) {
-      showMessage("pageMessage", error.message);
-    }
-  }
+  if (!selectedVehicleId) return;
+  if (button.dataset.detailAction === "edit-vehicle") editVehicle(selectedVehicleId);
+  if (button.dataset.detailAction === "delete-vehicle") await deleteSelectedVehicle(selectedVehicleId);
 }
 
 requireAuth(async (user) => {
@@ -159,6 +233,8 @@ requireAuth(async (user) => {
     closeVehicleForm();
   });
   document.getElementById("vehicleList").addEventListener("click", handleVehicleListClick);
+  document.getElementById("vehicleList").addEventListener("keydown", handleVehicleListKeydown);
+  document.getElementById("vehicleDetailPanel").addEventListener("click", handleVehicleDetailClick);
   await verifyToken();
   await loadVehicles();
 });

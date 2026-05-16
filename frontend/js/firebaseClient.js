@@ -2,7 +2,10 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/fireba
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  GoogleAuthProvider,
   onAuthStateChanged,
+  sendPasswordResetEmail,
+  signInWithPopup,
   signInWithEmailAndPassword,
   signOut
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
@@ -10,6 +13,7 @@ import { firebaseConfig } from "./config.js";
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
 
 export async function registerWithEmail(email, password) {
   return createUserWithEmailAndPassword(auth, email, password);
@@ -17,6 +21,14 @@ export async function registerWithEmail(email, password) {
 
 export async function loginWithEmail(email, password) {
   return signInWithEmailAndPassword(auth, email, password);
+}
+
+export async function loginWithGoogle() {
+  return signInWithPopup(auth, googleProvider);
+}
+
+export async function sendResetEmail(email) {
+  return sendPasswordResetEmail(auth, email);
 }
 
 export async function logout() {

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" role="img" aria-labelledby="title desc">
+  <title id="title">Motofy dashboard banner</title>
+  <desc id="desc">A road-inspired Motofy banner for vehicle expense tracking.</desc>
+  <defs>
+    <linearGradient id="banner-bg" x1="0" y1="0" x2="1200" y2="320" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#13293d" />
+      <stop offset="0.58" stop-color="#0f766e" />
+      <stop offset="1" stop-color="#f97316" />
+    </linearGradient>
+    <linearGradient id="road" x1="140" y1="278" x2="1000" y2="112" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f8fafc" stop-opacity="0.92" />
+      <stop offset="1" stop-color="#fef3c7" stop-opacity="0.86" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="320" rx="28" fill="url(#banner-bg)" />
+  <path d="M-20 288 C190 198 351 314 574 228 C777 150 912 70 1220 120" fill="none" stroke="url(#road)" stroke-width="34" stroke-linecap="round" opacity="0.92" />
+  <path d="M157 262 C331 206 433 278 606 210 C757 151 884 101 1050 105" fill="none" stroke="#13293d" stroke-width="6" stroke-linecap="round" stroke-dasharray="34 28" opacity="0.34" />
+  <circle cx="1020" cy="78" r="50" fill="#fef3c7" opacity="0.24" />
+  <circle cx="1060" cy="224" r="86" fill="#ffffff" opacity="0.1" />
+  <g transform="translate(760 178)">
+    <path d="M34 38 L55 10 H151 L178 38 H202 C213 38 222 47 222 58 V82 H14 V58 C14 47 23 38 34 38Z" fill="#ffffff" opacity="0.95" />
+    <path d="M68 18 H143 L160 38 H53Z" fill="#93c5fd" opacity="0.75" />
+    <circle cx="58" cy="84" r="22" fill="#13293d" />
+    <circle cx="178" cy="84" r="22" fill="#13293d" />
+    <circle cx="58" cy="84" r="8" fill="#f97316" />
+    <circle cx="178" cy="84" r="8" fill="#f97316" />
+  </g>
+  <text x="68" y="112" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="800">Motofy</text>
+  <text x="72" y="156" fill="#fef3c7" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">Keep every ride, refill, repair, and rupee in tune.</text>
+</svg>

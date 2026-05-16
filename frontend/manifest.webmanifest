@@ -1,0 +1,17 @@
+{
+  "name": "Motofy",
+  "short_name": "Motofy",
+  "description": "Track vehicle expenses, mileage, service, and fuel efficiency.",
+  "start_url": "./login.html",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f766e",
+  "icons": [
+    {
+      "src": "./assets/motofy-mark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

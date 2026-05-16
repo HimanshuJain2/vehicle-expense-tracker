@@ -28,7 +28,7 @@ app.use("/api", (req, res, next) => {
 });
 
 app.get("/health", (req, res) => {
-  res.json({ status: "ok", service: "vehicle-expense-tracker-api" });
+  res.json({ status: "ok", service: "motofy-api" });
 });
 
 app.use("/api/auth", authRoutes);
@@ -47,5 +47,5 @@ app.use((error, req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.log(`Vehicle Expense Tracker API running on port ${port}`);
+  console.log(`Motofy API running on port ${port}`);
 });

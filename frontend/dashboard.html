@@ -3,16 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard | Vehicle Expense Tracker</title>
+    <title>Dashboard | Motofy</title>
+    <link rel="icon" href="./assets/motofy-mark.svg" type="image/svg+xml" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <meta name="theme-color" content="#0f766e" />
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
     <div class="app-shell">
       <header class="topbar">
         <div class="brand">
-          <div class="logo">VE</div>
+          <img class="logo" src="./assets/motofy-mark.svg" alt="" />
           <div>
-            <h1>Dashboard</h1>
+            <h1>Motofy</h1>
             <p id="userEmail" class="muted"></p>
           </div>
         </div>
@@ -25,6 +28,14 @@
 
       <main>
         <p id="dashboardMessage" class="message"></p>
+        <section class="brand-hero" aria-label="Motofy overview">
+          <div>
+            <p class="eyebrow">Motofy garage</p>
+            <h2>Your vehicle money dashboard</h2>
+            <p>Turn refills, repairs, insurance, service, and odometer readings into a clear picture of what every ride really costs.</p>
+          </div>
+          <img src="./assets/motofy-banner.svg" alt="" />
+        </section>
         <section class="grid summary-grid">
           <article class="panel stat">
             <p class="muted">Total expenses</p>
@@ -111,6 +122,20 @@
             </label>
             <button id="clearFiltersButton" class="button ghost-button" type="button">Clear filters</button>
           </div>
+          <section id="expenseDetailPanel" class="panel detail-panel is-hidden" aria-label="Expense detail">
+            <div class="detail-header">
+              <div>
+                <p class="muted">Expense detail</p>
+                <h2 id="expenseDetailTitle"></h2>
+              </div>
+              <div class="detail-actions">
+                <button class="icon-button" data-detail-action="edit-expense" type="button" aria-label="Edit expense">✎</button>
+                <button class="icon-button danger" data-detail-action="delete-expense" type="button" aria-label="Delete expense">×</button>
+                <button class="icon-button" data-detail-action="close-expense" type="button" aria-label="Close expense detail">⌄</button>
+              </div>
+            </div>
+            <div id="expenseDetailBody" class="detail-grid"></div>
+          </section>
           <section id="editExpensePanel" class="panel inline-edit-panel is-hidden" aria-label="Edit expense">
             <div class="section-heading">
               <h2>Edit expense</h2>

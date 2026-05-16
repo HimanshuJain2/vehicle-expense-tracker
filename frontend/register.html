@@ -3,16 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register | Vehicle Expense Tracker</title>
+    <title>Register | Motofy</title>
+    <link rel="icon" href="./assets/motofy-mark.svg" type="image/svg+xml" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <meta name="theme-color" content="#0f766e" />
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body class="auth-page">
     <section class="auth-card">
       <div class="brand">
-        <div class="logo">VE</div>
+        <img class="logo" src="./assets/motofy-mark.svg" alt="" />
         <div>
-          <h1>Create account</h1>
-          <p class="muted">Start tracking fuel, service, repairs, and insurance.</p>
+          <h1>Join Motofy</h1>
+          <p class="muted">Mileage, spend, and service in rhythm.</p>
         </div>
       </div>
 
@@ -26,6 +29,11 @@
           <input name="password" type="password" autocomplete="new-password" minlength="6" required />
         </label>
         <button class="button" type="submit">Sign up</button>
+        <div class="auth-divider"><span>or</span></div>
+        <button class="button google-button" data-google-auth type="button">
+          <span class="google-mark" aria-hidden="true">G</span>
+          Sign up with Google
+        </button>
         <p id="formMessage" class="message"></p>
       </form>
 

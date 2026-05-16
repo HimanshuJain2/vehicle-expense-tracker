@@ -6,6 +6,7 @@ let currentUser;
 let vehicles = [];
 let allExpenses = [];
 let chart;
+let selectedExpenseId = null;
 
 function escapeHtml(value) {
   return String(value || "").replace(/[&<>"']/g, (character) => {
@@ -285,7 +286,7 @@ function renderExpenses(expenses) {
   list.innerHTML = expenses
     .map(
       (expense) => `
-        <article class="expense-card" data-expense-id="${expense.id}">
+        <article class="expense-card clickable-card" data-expense-id="${expense.id}" tabindex="0" role="button" aria-label="View ${escapeHtml(expense.type)} expense detail">
           <div class="expense-card-actions" aria-label="Expense actions">
             <button class="icon-button" data-action="edit-expense" data-id="${expense.id}" type="button" aria-label="Edit ${escapeHtml(expense.type)} expense">
               ✎
@@ -307,6 +308,15 @@ function renderExpenses(expenses) {
       `
     )
     .join("");
+}
+
+function detailRow(label, value) {
+  return `
+    <div class="detail-item">
+      <span>${escapeHtml(label)}</span>
+      <strong>${value || "—"}</strong>
+    </div>
+  `;
 }
 
 function renderExpenseMetrics(expense, distanceMap = new Map()) {
@@ -377,10 +387,43 @@ function closeExpenseEditor() {
   document.getElementById("editExpenseForm").reset();
 }
 
+function closeExpenseDetail() {
+  selectedExpenseId = null;
+  document.getElementById("expenseDetailPanel").classList.add("is-hidden");
+}
+
+function openExpenseDetail(expenseId) {
+  const expense = allExpenses.find((item) => item.id === expenseId);
+  if (!expense) return;
+
+  selectedExpenseId = expenseId;
+  const distanceMap = buildDistanceMap(allExpenses);
+  const distance = expense.tripDistance || distanceMap.get(expense.id);
+  const fuelEfficiency = expense.type === "fuel" ? formatEfficiency(distance, Number(expense.fuelQuantity || 0)) : "—";
+
+  document.getElementById("expenseDetailTitle").textContent = `${expense.type} • ${formatCurrency(expense.amount)}`;
+  document.getElementById("expenseDetailBody").innerHTML = [
+    detailRow("Vehicle", escapeHtml(vehicleName(expense.vehicleId))),
+    detailRow("Amount", formatCurrency(expense.amount)),
+    detailRow("Category", escapeHtml(expense.type)),
+    detailRow("Date", formatDate(expense.date)),
+    detailRow("Odometer", expense.odometer !== null && expense.odometer !== undefined ? `${Number(expense.odometer).toLocaleString("en-IN")} km` : "—"),
+    detailRow("Distance", distance ? formatKm(distance) : "—"),
+    detailRow("Fuel quantity", expense.fuelQuantity ? `${Number(expense.fuelQuantity).toLocaleString("en-IN")} L` : "—"),
+    detailRow("Fuel efficiency", fuelEfficiency),
+    detailRow("Note", escapeHtml(expense.note || "—"))
+  ].join("");
+
+  closeExpenseEditor();
+  document.getElementById("expenseDetailPanel").classList.remove("is-hidden");
+  document.getElementById("expenseDetailPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 function openExpenseEditor(expenseId) {
   const expense = allExpenses.find((item) => item.id === expenseId);
   if (!expense) return;
 
+  closeExpenseDetail();
   const form = document.getElementById("editExpenseForm");
   form.expenseId.value = expense.id;
   form.vehicleId.value = expense.vehicleId;
@@ -409,27 +452,58 @@ function syncEditFuelQuantityVisibility() {
 
 async function handleExpenseListClick(event) {
   const button = event.target.closest("button[data-action]");
+  if (button) {
+    const expenseId = button.dataset.id;
+    if (button.dataset.action === "edit-expense") {
+      openExpenseEditor(expenseId);
+      return;
+    }
+
+    if (button.dataset.action === "delete-expense") {
+      await deleteSelectedExpense(expenseId);
+      return;
+    }
+  }
+
+  const card = event.target.closest(".expense-card[data-expense-id]");
+  if (card) openExpenseDetail(card.dataset.expenseId);
+}
+
+function handleExpenseListKeydown(event) {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  const card = event.target.closest(".expense-card[data-expense-id]");
+  if (!card) return;
+  event.preventDefault();
+  openExpenseDetail(card.dataset.expenseId);
+}
+
+async function deleteSelectedExpense(expenseId) {
+  const confirmed = window.confirm("Delete this expense? This cannot be undone.");
+  if (!confirmed) return;
+
+  try {
+    await deleteExpense(expenseId);
+    showMessage("dashboardMessage", "Expense deleted.", "success");
+    closeExpenseEditor();
+    closeExpenseDetail();
+    await loadDashboard();
+  } catch (error) {
+    showMessage("dashboardMessage", error.message);
+  }
+}
+
+async function handleExpenseDetailClick(event) {
+  const button = event.target.closest("button[data-detail-action]");
   if (!button) return;
 
-  const expenseId = button.dataset.id;
-  if (button.dataset.action === "edit-expense") {
-    openExpenseEditor(expenseId);
+  if (button.dataset.detailAction === "close-expense") {
+    closeExpenseDetail();
     return;
   }
 
-  if (button.dataset.action === "delete-expense") {
-    const confirmed = window.confirm("Delete this expense? This cannot be undone.");
-    if (!confirmed) return;
-
-    try {
-      await deleteExpense(expenseId);
-      showMessage("dashboardMessage", "Expense deleted.", "success");
-      closeExpenseEditor();
-      await loadDashboard();
-    } catch (error) {
-      showMessage("dashboardMessage", error.message);
-    }
-  }
+  if (!selectedExpenseId) return;
+  if (button.dataset.detailAction === "edit-expense") openExpenseEditor(selectedExpenseId);
+  if (button.dataset.detailAction === "delete-expense") await deleteSelectedExpense(selectedExpenseId);
 }
 
 async function handleExpenseEditSubmit(event) {
@@ -472,6 +546,8 @@ requireAuth(async (user) => {
   document.getElementById("searchFilter").addEventListener("input", renderFilteredDashboard);
   document.getElementById("clearFiltersButton").addEventListener("click", resetFilters);
   document.getElementById("expenseList").addEventListener("click", handleExpenseListClick);
+  document.getElementById("expenseList").addEventListener("keydown", handleExpenseListKeydown);
+  document.getElementById("expenseDetailPanel").addEventListener("click", handleExpenseDetailClick);
   document.getElementById("vehicleInsightList").addEventListener("click", handleVehicleInsightClick);
   document.getElementById("vehicleInsightList").addEventListener("keydown", handleVehicleInsightKeydown);
   document.getElementById("editExpenseForm").addEventListener("submit", handleExpenseEditSubmit);

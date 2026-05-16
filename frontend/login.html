@@ -3,16 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login | Vehicle Expense Tracker</title>
+    <title>Login | Motofy</title>
+    <link rel="icon" href="./assets/motofy-mark.svg" type="image/svg+xml" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <meta name="theme-color" content="#0f766e" />
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body class="auth-page">
     <section class="auth-card">
       <div class="brand">
-        <div class="logo">VE</div>
+        <img class="logo" src="./assets/motofy-mark.svg" alt="" />
         <div>
-          <h1>Welcome back</h1>
-          <p class="muted">Track every vehicle expense in one place.</p>
+          <h1>Motofy</h1>
+          <p class="muted">Track every ride, refill, repair, and rupee.</p>
         </div>
       </div>
 
@@ -25,7 +28,15 @@
           Password
           <input name="password" type="password" autocomplete="current-password" minlength="6" required />
         </label>
+        <div class="auth-options">
+          <button class="text-button" data-reset-password type="button">Forgot password?</button>
+        </div>
         <button class="button" type="submit">Log in</button>
+        <div class="auth-divider"><span>or</span></div>
+        <button class="button google-button" data-google-auth type="button">
+          <span class="google-mark" aria-hidden="true">G</span>
+          Continue with Google
+        </button>
         <p id="formMessage" class="message"></p>
       </form>
 

@@ -1,7 +1,7 @@
 {
-  "name": "vehicle-expense-tracker-backend",
+  "name": "motofy-backend",
   "version": "1.0.0",
-  "description": "Express API for the Vehicle Expense Tracker app.",
+  "description": "Express API for Motofy.",
   "main": "server.js",
   "type": "commonjs",
   "scripts": {

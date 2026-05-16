@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "VehicleExpenseTracker"
+rootProject.name = "Motofy"
 include ":app"
